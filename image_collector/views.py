@@ -1,7 +1,9 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
-from .models import Post, Hotel
+from .models import Post, Images
 from .forms import *
+from django.views.decorators.csrf import csrf_exempt
+
 
 posts = [
     {
@@ -30,17 +32,16 @@ def about(request):
 def test(request):
     return HttpResponse('<h1>About test</h1>')
 
-def hotel_image_view(request): 
-  
+@csrf_exempt
+def image_upload(request): 
     if request.method == 'POST': 
-        form = HotelForm(request.POST, request.FILES) 
-  
+        form = ImageForm(request.POST, request.FILES) 
         if form.is_valid(): 
             form.save() 
             return redirect('success') 
     else: 
-        form = HotelForm() 
-    return render(request, 'image_collector/hotel_image_form.html', {'form' : form}) 
+        form = ImageForm() 
+    return render(request, 'image_collector/class_image_form.html', {'form' : form}) 
   
   
 def success(request): 
@@ -48,6 +49,6 @@ def success(request):
 
 def view_images(request):
     context = {
-        'hotels' : Hotel.objects.all()
+        'images' : Images.objects.all()
     }
     return render(request, 'image_collector/view_images.html', context)

@@ -9,8 +9,8 @@ class Post(models.Model):
     date_created = models.DateTimeField(default = timezone.now)
     author = models.ForeignKey(User, on_delete= models.CASCADE)
 
-class Hotel(models.Model): 
+class Images(models.Model): 
     name = models.CharField(max_length=50) 
-    hotel_Main_Img = models.ImageField(upload_to='images/')
+    class_img = models.ImageField(upload_to='images/')
     def __str__(self):
         return self.name
